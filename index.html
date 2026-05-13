@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Für Lea ❤️</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    font-family:Arial,sans-serif;
+    color:white;
+    overflow:hidden;
+
+    background: url("/bilder/blumenstrauss.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Overlay */
+body::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    z-index:0;
+}
+
+h1, button{
+    position:relative;
+    z-index:1;
+}
+
+h1{
+    margin-bottom:40px;
+    text-align:center;
+    font-size:2.5rem;
+    text-shadow:0 2px 10px rgba(0,0,0,0.7);
+}
+
+button{
+    margin-top:30px;
+    padding:15px 30px;
+    border:none;
+    border-radius:12px;
+    background:#ff4d6d;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 25px #ff4d6d;
+}
+
+/* ❤️ HERZEN (FIXED POSITION) */
+.heart {
+    position: absolute;
+    bottom: -20px;
+    color: rgba(255, 77, 109, 0.8);
+    font-size: 20px;
+    animation: floatUp 6s linear forwards;
+    pointer-events: none;
+    z-index: 1;
+    text-shadow: 0 0 10px rgba(255,0,80,0.6);
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-110vh) scale(1.8);
+        opacity: 0;
+    }
+}
+
+.explosion-heart {
+    position: absolute;
+    font-size: 20px;
+    pointer-events: none;
+    animation: explode 800ms ease-out forwards;
+    z-index: 2;
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(0,0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) scale(0.5);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Ich liebe dich Lea ❤️</h1>
+
+<button id="loveBtn">
+Klick mich
+</button>
+
+<script>
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText = "❤️";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (16 + Math.random() * 30) + "px";
+    heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 7000);
+}
+
+const btn = document.getElementById("loveBtn");
+
+btn.addEventListener("click", () => {
+    alert("Du bist wundervoll ❤️");
+    createExplosion(btn);
+});
+
+function createExplosion(element) {
+    const rect = element.getBoundingClientRect();
+
+    for (let i = 0; i < 18; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("explosion-heart");
+        heart.innerText = "❤️";
+
+        // Startposition (Button-Mitte)
+        heart.style.left = rect.left + rect.width / 2 + "px";
+        heart.style.top = rect.top + rect.height / 2 + "px";
+
+        // Zufällige Richtung
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 80 + Math.random() * 120;
+
+        const x = Math.cos(angle) * distance + "px";
+        const y = Math.sin(angle) * distance + "px";
+
+        heart.style.setProperty("--x", x);
+        heart.style.setProperty("--y", y);
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 800);
+    }
+}
+
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
